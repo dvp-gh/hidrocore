@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HIDROCORE — Ingeniería Hidráulica</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ocean: #0A2540;
+  --ocean-mid: #1A4A7A;
+  --ocean-light: #2D7DD2;
+  --accent: #0EA5E9;
+  --accent-bright: #00D4FF;
+  --white: #ffffff;
+  --gray-50: #F8FAFC;
+  --gray-100: #F1F5F9;
+  --gray-300: #CBD5E1;
+  --gray-500: #64748B;
+  --gray-700: #334155;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--ocean);
+  background: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 2.5rem;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(10,37,64,0.08);
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ocean);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.logo span { color: var(--accent); }
+
+.lang-btn {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 6px 16px;
+  border: 1.5px solid var(--ocean-mid);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ocean);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lang-btn:hover { background: var(--ocean); color: var(--white); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 8rem 2.5rem 5rem;
+  position: relative;
+  background: var(--ocean);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(14,165,233,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 10% 80%, rgba(0,212,255,0.06) 0%, transparent 60%);
+}
+
+.hero-grid {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 700px;
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block; width: 32px; height: 1.5px;
+  background: var(--accent);
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--accent-bright);
+}
+
+.hero p {
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.72);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  line-height: 1.75;
+}
+
+.cta-primary {
+  display: inline-block;
+  padding: 16px 36px;
+  background: var(--accent);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: none; cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.25s;
+  box-shadow: 0 0 40px rgba(14,165,233,0.35);
+}
+.cta-primary:hover {
+  background: var(--accent-bright);
+  box-shadow: 0 0 60px rgba(0,212,255,0.5);
+  transform: translateY(-1px);
+}
+
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; left: 2.5rem;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+.hero-scroll::after {
+  content: '';
+  display: block; width: 40px; height: 1px;
+  background: rgba(255,255,255,0.25);
+}
+
+/* ── CONFIGURADOR ── */
+.configurador {
+  padding: 6rem 2.5rem;
+  background: var(--gray-50);
+}
+
+.section-label {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::before {
+  content: ''; display: block; width: 24px; height: 1.5px;
+  background: var(--accent);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  color: var(--ocean);
+  letter-spacing: -0.01em;
+  margin-bottom: 2.5rem;
+  max-width: 500px;
+}
+
+.calc-box {
+  background: var(--white);
+  border: 1px solid rgba(10,37,64,0.1);
+  border-radius: 8px;
+  padding: 2.5rem;
+  max-width: 620px;
+  box-shadow: 0 4px 40px rgba(10,37,64,0.06);
+}
+
+.calc-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--ocean);
+  text-transform: uppercase;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--gray-100);
+  margin-bottom: 1.75rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.calc-title::before {
+  content: '';
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  display: flex; flex-direction: column; gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+.form-group input, .form-group select {
+  padding: 11px 14px;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ocean);
+  background: var(--white);
+  transition: border-color 0.2s;
+  appearance: none;
+}
+.form-group input:focus, .form-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  margin-top: 2px;
+}
+
+.cta-calc {
+  width: 100%;
+  padding: 14px;
+  background: var(--ocean);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border: none; cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.cta-calc:hover { background: var(--ocean-mid); }
+
+/* ── SOLUCIONES ── */
+.soluciones {
+  padding: 6rem 2.5rem;
+  background: var(--white);
+}
+
+.soluciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.sol-card {
+  border: 1px solid rgba(10,37,64,0.1);
+  border-radius: 8px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.sol-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 40px rgba(14,165,233,0.12);
+}
+
+.sol-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+.sol-card:hover::after { transform: scaleX(1); }
+
+.sol-icon {
+  width: 48px; height: 48px;
+  background: rgba(14,165,233,0.08);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.sol-icon svg { width: 24px; height: 24px; stroke: var(--accent); fill: none; stroke-width: 1.8; }
+
+.sol-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--ocean);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.sol-card p {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+  line-height: 1.7;
+}
+
+/* ── CONTACTO ── */
+.contacto {
+  padding: 6rem 2.5rem;
+  background: var(--ocean);
+  position: relative; overflow: hidden;
+}
+
+.contacto::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 80% 50%, rgba(14,165,233,0.1) 0%, transparent 70%);
+}
+
+.contacto-inner {
+  position: relative; z-index: 2;
+  max-width: 560px;
+}
+
+.contacto .section-label { color: var(--accent-bright); }
+.contacto .section-label::before { background: var(--accent-bright); }
+
+.contacto .section-title { color: var(--white); }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.contacto .form-group label { color: rgba(255,255,255,0.55); }
+
+.contacto .form-group input,
+.contacto .form-group textarea {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.15);
+  color: var(--white);
+}
+.contacto .form-group input::placeholder,
+.contacto .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+.contacto .form-group input:focus,
+.contacto .form-group textarea:focus {
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.08);
+}
+
+.contacto .form-group textarea {
+  resize: vertical;
+  min-height: 110px;
+  padding: 11px 14px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+.contacto .form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+}
+
+.cta-contact {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border: none; cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.25s;
+  box-shadow: 0 0 30px rgba(14,165,233,0.3);
+}
+.cta-contact:hover {
+  background: var(--accent-bright);
+  box-shadow: 0 0 50px rgba(0,212,255,0.4);
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 2rem 2.5rem;
+  background: #060F1A;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.8);
+  text-transform: uppercase;
+}
+.footer-logo span { color: var(--accent); }
+
+.footer-copy {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.04em;
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+  background: var(--ocean);
+  color: var(--white);
+  padding: 14px 24px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border-left: 3px solid var(--accent);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  transform: translateY(80px); opacity: 0;
+  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  nav { padding: 1rem 1.25rem; }
+  .hero { padding: 7rem 1.25rem 4rem; }
+  .configurador, .soluciones, .contacto { padding: 4rem 1.25rem; }
+  .form-row, .contact-grid { grid-template-columns: 1fr; }
+  footer { padding: 1.5rem 1.25rem; flex-direction: column; text-align: center; }
+  .calc-box { padding: 1.5rem; }
+}
+
+/* ── ANIMACIONES ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow { animation: fadeUp 0.6s ease both; }
+.hero h1 { animation: fadeUp 0.6s 0.1s ease both; }
+.hero p { animation: fadeUp 0.6s 0.2s ease both; }
+.cta-primary { animation: fadeUp 0.6s 0.3s ease both; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">HIDRO<span>CORE</span></a>
+  <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-es="Soluciones de Bombeo" data-en="Pumping Solutions">Soluciones de Bombeo</div>
+    <h1 data-es="Tu agua, bajo <em>control inteligente.</em>" data-en="Your water, under <em>intelligent control.</em>">
+      Tu agua, bajo <em>control inteligente.</em>
+    </h1>
+    <p data-es="Desde el jardín de tu casa hasta proyectos industriales. Calculamos e instalamos el sistema de bombeo perfecto para tus necesidades." data-en="From your home garden to industrial projects. We calculate and install the perfect pumping system for your needs.">
+      Desde el jardín de tu casa hasta proyectos industriales. Calculamos e instalamos el sistema de bombeo perfecto para tus necesidades.
+    </p>
+    <a href="#configurador" class="cta-primary" data-es="Configurar mi Solución →" data-en="Configure my Solution →">
+      Configurar mi Solución →
+    </a>
+  </div>
+  <div class="hero-scroll" data-es="Explorar" data-en="Explore">Explorar</div>
+</section>
+
+<!-- CONFIGURADOR -->
+<section class="configurador" id="configurador">
+  <div class="section-label" data-es="Herramienta técnica" data-en="Technical tool">Herramienta técnica</div>
+  <h2 class="section-title" data-es="Calculadora Técnica de Bombeo" data-en="Technical Pump Calculator">Calculadora Técnica de Bombeo</h2>
+  <div class="calc-box">
+    <div class="calc-title" data-es="Parámetros del Sistema" data-en="System Parameters">Parámetros del Sistema</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label data-es="Caudal Requerido" data-en="Required Flow Rate">Caudal Requerido</label>
+        <input type="number" placeholder="ej: 5" id="caudal" min="0">
+        <span class="form-hint" data-es="m³/h — Cuánta agua necesitas por hora" data-en="m³/h — How much water you need per hour">m³/h — Cuánta agua necesitas por hora</span>
+      </div>
+      <div class="form-group">
+        <label data-es="Presión / Altura" data-en="Pressure / Height">Presión / Altura</label>
+        <input type="number" placeholder="ej: 20" id="presion" min="0">
+        <span class="form-hint" data-es="mca — Altura o distancia a elevar el agua" data-en="mca — Height or distance to pump water">mca — Altura o distancia a elevar el agua</span>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label data-es="Tipo de Aplicación" data-en="Application Type">Tipo de Aplicación</label>
+        <select id="aplicacion">
+          <option data-es="Residencial / Parcela" data-en="Residential / Land">Residencial / Parcela</option>
+          <option data-es="Riego / Pozo Profundo" data-en="Irrigation / Deep Well">Riego / Pozo Profundo</option>
+          <option data-es="Industrial / Agua de Mar" data-en="Industrial / Sea Water">Industrial / Agua de Mar</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label data-es="Tipo de Fuente" data-en="Source Type">Tipo de Fuente</label>
+        <select id="fuente">
+          <option data-es="Red de agua potable" data-en="Drinking water network">Red de agua potable</option>
+          <option data-es="Pozo / Noria" data-en="Well / Borehole">Pozo / Noria</option>
+          <option data-es="Estanque / Cisterna" data-en="Tank / Cistern">Estanque / Cisterna</option>
+          <option data-es="Agua de mar / salobre" data-en="Sea / brackish water">Agua de mar / salobre</option>
+        </select>
+      </div>
+    </div>
+    <button class="cta-calc" onclick="solicitarPropuesta()" data-es="Solicitar Propuesta de Ingeniería →" data-en="Request Engineering Proposal →">
+      Solicitar Propuesta de Ingeniería →
+    </button>
+  </div>
+</section>
+
+<!-- SOLUCIONES -->
+<section class="soluciones" id="soluciones">
+  <div class="section-label" data-es="Áreas de especialidad" data-en="Areas of expertise">Áreas de especialidad</div>
+  <h2 class="section-title" data-es="Soluciones para cada desafío" data-en="Solutions for every challenge">Soluciones para cada desafío</h2>
+  <div class="soluciones-grid">
+
+    <div class="sol-card">
+      <div class="sol-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3 data-es="Residencial y Parcelas" data-en="Residential & Land">Residencial y Parcelas</h3>
+      <p data-es="Bombas eficientes para presión constante en el hogar. Sistemas silenciosos, compactos y de bajo consumo energético adaptados a cada vivienda." data-en="Efficient pumps for constant home pressure. Silent, compact, and low-energy systems adapted to each home.">
+        Bombas eficientes para presión constante en el hogar. Sistemas silenciosos, compactos y de bajo consumo energético adaptados a cada vivienda.
+      </p>
+    </div>
+
+    <div class="sol-card">
+      <div class="sol-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="4"/><path d="M12 2a10 10 0 0110 10"/></svg>
+      </div>
+      <h3 data-es="Riego y Pozo Profundo" data-en="Irrigation & Deep Well">Riego y Pozo Profundo</h3>
+      <p data-es="Extracción confiable con protección contra trabajo en seco. Equipos sumergibles de alta eficiencia para agricultura, riego y captación de napas profundas." data-en="Reliable extraction with dry-run protection. High-efficiency submersible equipment for agriculture, irrigation and deep aquifer extraction.">
+        Extracción confiable con protección contra trabajo en seco. Equipos sumergibles de alta eficiencia para agricultura, riego y captación de napas profundas.
+      </p>
+    </div>
+
+    <div class="sol-card">
+      <div class="sol-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <h3 data-es="Ambientes Corrosivos" data-en="Corrosive Environments">Ambientes Corrosivos</h3>
+      <p data-es="Especialistas en agua salada y procesos industriales. Materiales certificados AISI 316L y accesorios de alta resistencia para las condiciones más exigentes." data-en="Specialists in saltwater and industrial processes. AISI 316L certified materials and high-resistance fittings for the most demanding conditions.">
+        Especialistas en agua salada y procesos industriales. Materiales certificados AISI 316L y accesorios de alta resistencia para las condiciones más exigentes.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contacto" id="contacto">
+  <div class="contacto-inner">
+    <div class="section-label" data-es="Hablemos" data-en="Let's talk">Hablemos</div>
+    <h2 class="section-title" data-es="¿Tienes un proyecto en mente?" data-en="Do you have a project in mind?">¿Tienes un proyecto en mente?</h2>
+    <div class="contact-grid">
+      <div class="form-group">
+        <label data-es="Nombre" data-en="Name">Nombre</label>
+        <input type="text" placeholder="Tu nombre" id="c-nombre">
+      </div>
+      <div class="form-group">
+        <label data-es="Ciudad" data-en="City">Ciudad</label>
+        <input type="text" placeholder="Santiago, Valparaíso..." id="c-ciudad">
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:1rem">
+      <label>Email</label>
+      <input type="email" placeholder="tu@email.com" id="c-email">
+    </div>
+    <div class="form-group">
+      <label data-es="Detalles adicionales" data-en="Additional details">Detalles adicionales</label>
+      <textarea placeholder="Cuéntanos sobre tu proyecto, tipo de instalación, consumo estimado..." id="c-detalles"></textarea>
+    </div>
+    <button class="cta-contact" onclick="enviarContacto()" data-es="Enviar Consulta →" data-en="Send Inquiry →">
+      Enviar Consulta →
+    </button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">HIDRO<span>CORE</span></div>
+  <div class="footer-copy" data-es="HIDROCORE — Ingeniería Hidráulica. Santiago, Chile." data-en="HIDROCORE — Hydraulic Engineering. Santiago, Chile.">
+    HIDROCORE — Ingeniería Hidráulica. Santiago, Chile.
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+let lang = 'es';
+
+function toggleLang() {
+  lang = lang === 'es' ? 'en' : 'es';
+  document.getElementById('langBtn').textContent = lang === 'es' ? 'EN' : 'ES';
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll('[data-es]').forEach(el => {
+    const text = el.getAttribute('data-' + lang);
+    if (!text) return;
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = text;
+    } else if (el.tagName === 'OPTION') {
+      el.textContent = text;
+    } else {
+      el.innerHTML = text;
+    }
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function solicitarPropuesta() {
+  const caudal = document.getElementById('caudal').value;
+  const presion = document.getElementById('presion').value;
+  if (!caudal || !presion) {
+    showToast(lang === 'es' ? '⚠ Ingresa caudal y presión para continuar.' : '⚠ Enter flow rate and pressure to continue.');
+    return;
+  }
+  document.getElementById('c-detalles').value =
+    lang === 'es'
+    ? `Caudal requerido: ${caudal} m³/h | Presión: ${presion} mca`
+    : `Required flow: ${caudal} m³/h | Pressure: ${presion} mca`;
+  document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+  showToast(lang === 'es' ? '✓ Parámetros trasladados al formulario.' : '✓ Parameters transferred to the form.');
+}
+
+function enviarContacto() {
+  const nombre = document.getElementById('c-nombre').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+  if (!nombre || !email) {
+    showToast(lang === 'es' ? '⚠ Completa nombre y email.' : '⚠ Fill in name and email.');
+    return;
+  }
+  showToast(lang === 'es' ? `✓ Gracias ${nombre}, te contactaremos pronto.` : `✓ Thank you ${nombre}, we'll be in touch.`);
+  ['c-nombre','c-ciudad','c-email','c-detalles'].forEach(id => document.getElementById(id).value = '');
+}
+</script>
+</body>
+</html>
